@@ -1,5 +1,6 @@
 #ifndef EQUATIONSOLVER
 #define EQUATIONSOLVER
+
 #include <stdexcept>
 #include <cmath>
 
@@ -21,7 +22,12 @@ private:
 public:
     Bisection_Method(const Function &F, double a, double b, 
         double eps = 1e-7, double delta = 1e-6, int Maxiter = 50) :
-        EquationSolver(F), a(a), b(b), eps(eps), delta(delta), Maxiter(Maxiter) {}
+        EquationSolver(F), 
+		a(a), 
+		b(b), 
+		eps(eps), 
+		delta(delta), 
+		Maxiter(Maxiter) {}
     
         virtual double solve() {
     double c, fc;

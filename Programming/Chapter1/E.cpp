@@ -1,11 +1,8 @@
-
 #include "Function.hpp"
 #include "EquationSolver.hpp"
 #include <iostream>
 #include <cmath>
 
-
-//--------------------------------------------------------------E-------------------------------------------------------------------
 const double L = 10.0;
 const double r = 1.0;
 const double V_target = 12.4;
@@ -44,7 +41,6 @@ void solve_secant() {
 
 int main() {
 
-	//--------------------------------------------------------------E-------------------------------------------------------------------
 	solve_bisection();
 	solve_newton();
 	solve_secant();

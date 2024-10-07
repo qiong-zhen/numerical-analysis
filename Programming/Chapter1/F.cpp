@@ -1,10 +1,7 @@
-
 #include "Function.hpp"
 #include "EquationSolver.hpp"
 #include <iostream>
 #include <cmath>
-
-//--------------------------------------------------------------F-------------------------------------------------------------------
 
 const double pi = acos(-1.0);
 
@@ -52,7 +49,6 @@ void solve_secant(double l, double h, double D, double beta1, double initial_gue
 }
 int main() {
 
-	//--------------------------------------------------------------F-------------------------------------------------------------------
 	// 参数设置
 	double l = 89;       // in
 	double h = 49;       // in

@@ -1,12 +1,7 @@
-
 #include "Function.hpp"
 #include "EquationSolver.hpp"
 #include <iostream>
 #include <cmath>
-
-
-
-//--------------------------------------------------------------C-------------------------------------------------------------------
 
 // f(x) = x - tan(x)
 class F5 : public Function {
@@ -26,8 +21,6 @@ void solve_f5(double initial_guess) {
 
 int main() {
 
-	
-	//--------------------------------------------------------------C-------------------------------------------------------------------
 	// Find roots close to 4.5 and 7.7
 	solve_f5(4.5);
 	solve_f5(7.7);
