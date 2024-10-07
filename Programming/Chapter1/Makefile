@@ -41,8 +41,8 @@ run: all
 	@./F
 
 # 编译 LaTeX 文件成 PDF
-report: answer.tex
-	xelatex answer.tex
+report: report.tex
+	xelatex report.tex
 
 # 清理编译生成的文件
 clean:
