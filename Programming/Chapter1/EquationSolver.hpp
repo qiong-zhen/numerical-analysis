@@ -1,6 +1,7 @@
 #ifndef EQUATIONSOLVER
 #define EQUATIONSOLVER
 
+#include <iostream>
 #include <stdexcept>
 #include <cmath>
 
@@ -30,46 +31,24 @@ public:
 		Maxiter(Maxiter) {}
     
         virtual double solve() {
-    double c; // midpoint
-    double fa = F(a);
-    double fb = F(b);
+    if (F(a) * F(b) >= 0) {
+            throw std::invalid_argument("Function values at the endpoints must have different signs.");
+        }
 
-    // Check if the function has opposite signs at the endpoints
-    if (fa * fb > 0) {
-        throw std::runtime_error("Same signs at endpoints.");
+        double c;
+        for (int iter = 0; iter < Maxiter; ++iter) {
+            c = (a + b) / 2.0; // Midpoint
+            if (std::abs(F(c)) < eps || (b - a) < eps) {
+                return c; 
+            }
+            if (F(c) * F(a) < 0) {
+                b = c; // Root is in the left half
+            } else {
+                a = c; // Root is in the right half
+            }
+        }
+        return c; 
     }
-
-    int iter = 0; 
-
-    // Main loop until the interval is sufficiently small
-    while ((b - a) / 2.0 > eps) {
-        if (iter >= Maxiter) {
-            throw std::runtime_error("Maximum iteration limit reached.");
-        }
-        
-        c = a + (b - a) / 2.0; // Calculate the midpoint
-        double fc = F(c); // Function value at midpoint
-
-        // Check for convergence
-        if (fabs(fc) < delta || (b - a) < eps) {
-            return c;
-        }
-
-        // Narrow down the interval based on the sign of f(c)
-        if (fa * fc < 0) {
-            b = c; // root is in left half
-            fb = fc;
-        } else {
-            a = c; // root is in right half
-            fa = fc;
-        }
-        
-        iter++; 
-    }
-
-    return (a + b) / 2.0; 
-}
-
 };
 
 class Newton_Method : public EquationSolver {
@@ -83,29 +62,24 @@ public:
         EquationSolver(F), x0(x0), eps(eps),Maxiter(Maxiter) {}
     
     virtual double solve() {
-    double x = x0, fx, dfx;
-    int iter = 0;
+double x = x0;
 
-    do {
-        fx = F(x);
-        if (fabs(fx) <= eps) break;
-
-        dfx = F.derivative(x);
-        if (fabs(dfx) < eps) {
-            throw std::runtime_error("Derivative value is excessively small.");
+        for (int iter = 0; iter < Maxiter; ++iter) {
+            double fx = F(x);
+            double dfx = F.derivative(x); // Assuming Function class has a derivative method
+            
+            if (std::abs(fx) < eps) {
+                return x; 
+            }
+            if (std::abs(dfx) < eps) {
+                throw std::runtime_error("Derivative is zero. No solution found.");
+            }
+            x = x - fx / dfx; // Newton's update
         }
-
-        x -= fx / dfx;
-        iter++;
-        if (iter > Maxiter) {
-            throw std::runtime_error("Maximum iteration limit reached.");
-        }
-    } while (true);
-    
-    return x;
-}
-    
+        return x; 
+    }
 };
+
 class Secant_Method : public EquationSolver {
 private:
     double x0, x1;
@@ -117,29 +91,24 @@ public:
         EquationSolver(F), x0(x0), x1(x1), eps(eps), Maxiter(Maxiter) {}
 
     virtual double solve() {
-    double x2, fx0 = F(x0), fx1 = F(x1);
-    int iter = 0;
-
-    while (fabs(x1 - x0) > eps) {
-        if (iter++ > Maxiter) {
-            throw std::runtime_error("Maximum iteration limit reached.");
+    for (int iter = 0; iter < Maxiter; ++iter) {
+            double f0 = F(x0);
+            double f1 = F(x1);
+            
+            if (std::abs(f1 - f0) < eps) {
+                throw std::runtime_error("Function values are too close. No solution found.");
+            }
+            double x2 = x1 - f1 * (x1 - x0) / (f1 - f0); 
+            
+            if (std::abs(F(x2)) < eps) {
+                return x2; 
+            }
+            
+            x0 = x1; 
+            x1 = x2; 
         }
-
-        if (fabs(fx0 - fx1) < eps) {
-            throw std::runtime_error("Values are too close.");
-        }
-
-        x2 = x1 - fx1 * (x1 - x0) / (fx1 - fx0);
-        x0 = x1; fx0 = fx1;
-        x1 = x2; fx1 = F(x2);
-
-        if (fabs(fx1) <= eps) break;
+        return x1; 
     }
-    
-    return x1;
-}
-
 };
-
 
 #endif
