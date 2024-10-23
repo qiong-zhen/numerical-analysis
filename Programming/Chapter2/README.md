@@ -3,7 +3,7 @@
 
 `report.tex`: 实验报告.
 
-problem A 的代码:EquationSolver.hpp` 和 `Function.hpp`文件
+problem A 的代码:Interpolation.hpp` 和 `Function.hpp`文件
 
 problem B-F的代码:B-F的5个`.cpp`文件
 
