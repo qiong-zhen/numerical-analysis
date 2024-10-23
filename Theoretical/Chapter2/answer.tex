@@ -1,0 +1,352 @@
+\documentclass[a4paper]{article}
+\usepackage{ctex} 
+\usepackage[affil-it]{authblk}
+\usepackage[backend=bibtex,style=numeric]{biblatex}
+\usepackage{amsmath}
+
+\usepackage{geometry}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+\addbibresource{citation.bib}
+
+\begin{document}
+% =================================================
+\title{Numerical Analysis homework 2}
+
+\author{谭希 Tan Xi 3220100027
+  \thanks{Electronic address: \texttt{3220100027@zju.edu.cn}}}
+\affil{(数学与应用数学2201), Zhejiang University }
+
+
+\date{Due time: \today}
+
+\maketitle
+
+% ============================================
+\section*{I. }
+\subsection*{I-a}
+The first derivative is:
+\[f'(x) = -\frac{1}{x^2}\]
+The second derivative is:
+\[f''(x) = \frac{2}{x^3}\]
+Using the interpolation error formula:
+\[f(x) - p_1(f; x) = \frac{f''(\xi(x))}{2} (x - 1)(x - 2)\]
+then:
+\[\xi(x)^3 = \frac{(x - 1)(x - 2)}{f(x) - p_1(f; x)}\]
+
+\[\xi(x)^3 = \frac{1}{\frac{1}{x} - \left(\frac{3 - x}{2}\right)}(x - 1)(x - 2).\]
+
+\[\xi(x)^3 = \frac{1}{\frac{(x - 1)(x - 2)}{2x}}(x - 1)(x - 2).\]
+
+Thus:
+\[\xi(x)^3 = 2x,\]
+
+\[\xi(x) = \sqrt[3]{2x}.\]
+
+\subsection*{I-b}
+According to I-a,$\xi(x)=\sqrt[3]{2x}$ ,increases .$f''(\xi(x))=\frac{1}{x}$, decreases.\\
+So $\max\xi(x)=\sqrt[3]{4}$ and $\min\xi(x)=\sqrt[3]{2}$.
+$\max f''(\xi(x))=1$
+
+\section*{II. }
+
+1. Lagrange Interpolation Polynomial:\\
+   The Lagrange interpolation polynomial \( p(x) \) that fits the points \( (x_i, f_i) \) is given by:
+   \[
+   p(x) = \sum_{i=0}^{n} f_i L_i(x)
+   \]
+   where \( L_i(x) \) is the Lagrange basis polynomial defined as:
+   \[
+   L_i(x) = \prod_{\substack{0 \leq j \leq n \\ j \neq i}} \frac{x - x_j}{x_i - x_j}
+   \]
+   Each \( L_i(x) \) is a polynomial of degree \( n \), thus \( p(x) \) is a polynomial of degree at most \( n \).
+
+2. Ensuring Non-negativity:\\
+   To ensure that the interpolation polynomial \( p(x) \) is non-negative for all \( x \in \mathbb{R} \), we can utilize the squares of the Lagrange basis polynomials:
+   \[
+   q(x) = \sum_{i=0}^{n} f_i (L_i(x))^2
+   \]
+   \( (L_i(x))^2 \) ensures that each term is non-negative, as squares of real numbers are non-negative. The polynomial \( q(x) \) will be of degree \( 2n \) because the degree of \( (L_i(x))^2 \) is \( 2n \).
+
+   Therefore, we can express  polynomial \( p(x) \) in \( P^+_{2n} \) as:
+   \[
+   p(x) = \sum_{i=0}^{n} f_i (L_i(x))^2
+   \]
+   
+\[
+p(x) = \sum_{i=0}^{n} f_i \left( \prod_{\substack{0 \leq j \leq n \\ j \neq i}} \frac{x - x_j}{x_i - x_j} \right)^2
+\]
+This polynomial is in \( P^+_{2n} \) and satisfies the required conditions.
+
+
+\section*{III. }
+\subsection*{III-a}
+
+For \( n = 0 \):
+\[f[t] = e^t\]
+The right side becomes:
+\[\frac{(e - 1)^0}{0!} e^t = 1 \cdot e^t = e^t\]
+Thus, the base case holds.
+
+Assume the statement is true for \( n = k \):
+\[f[t, t + 1, \ldots, t + k] = \frac{(e - 1)^k}{k!} e^t\]
+We need to prove it for \( n = k + 1 \):
+\[f[t, t + 1, \ldots, t + (k + 1)] = f[t, t + 1, \ldots, t + k] + f[t + k + 1]\]
+
+\[f[t, t + 1, \ldots, t + k] = \frac{(e - 1)^k}{k!} e^t\]
+and 
+\[f[t + k + 1] = e^{t + k + 1} = e^t e^{k + 1} = e^{t} e^{k + 1}\]
+
+Then:
+\[f[t, t + 1, \ldots, t + (k + 1)] = \frac{(e - 1)^k}{k!} e^t + e^{t} e^{k + 1}\]
+
+\[f[t, t + 1, \ldots, t + (k + 1)] = e^t \left( \frac{(e - 1)^k}{k!} + e^{k + 1} \right)\]
+
+Notice that:
+\[e^{k + 1} = \frac{(e - 1)^{k + 1}}{(k + 1)!}\]
+\[e^{k + 1} = \frac{(e - 1)^{k + 1}}{(k + 1)!} = \frac{(e - 1)^k (e - 1)}{(k + 1)!}\]
+Thus, the equation becomes:
+\[f[t, t + 1, \ldots, t + (k + 1)] = e^t \left( \frac{(e - 1)^k}{k!} + \frac{(e - 1)^{k + 1}}{(k + 1)!} \right)\]
+
+\[f[t, t + 1, \ldots, t + (k + 1)] = e^t \left( \frac{(e - 1)^k (k + 1) + (e - 1)^{k + 1}}{(k + 1)!} \right)\]
+\[= e^t \frac{(e - 1)^k (k + 1) + (e - 1)^{k + 1}}{(k + 1)!} = e^t \frac{(e - 1)^{k + 1} + (e - 1)^{k + 1}}{(k + 1)!} = e^t \frac{(e - 1)^{k + 1}}{(k + 1)!}\]
+Thus:
+\[f[t, t + 1, \ldots, t + (k + 1)] = \frac{(e - 1)^{k + 1}}{(k + 1)!} e^t\]
+
+By mathematical induction, we have shown that:
+\[f[t, t + 1, \ldots, t + n] = \frac{(e - 1)^n}{n!} e^t \quad \forall n \in \mathbb{N}\]
+
+\subsection*{III-b}
+\[f[0, 1, \ldots, n] = \frac{1}{n!} f^{(n)}(\xi)\]
+Thus,
+\[f[0, 1, \ldots, n] = \frac{(e - 1)^n}{n!}\]
+\[\frac{(e - 1)^n}{n!} = \frac{1}{n!} f^{(n)}(\xi)\]
+\[f^{(n)}(\xi) = (e - 1)^n\]
+Then:
+\[f^{(n)}(x) = e^x\]
+\[f^{(n)}(\xi) = e^\xi\]
+\[e^\xi = (e - 1)^n\]
+\[\xi = \ln((e - 1)^n) = n \ln(e - 1)\]
+
+Since \( \ln(e - 1) \) is a constant, we need to compare \( n \ln(e - 1) \) with \( \frac{n}{2} \)
+
+\[e - 1 \approx 1.71828 \quad \Rightarrow \quad \ln(e - 1) \approx 0.54132\]
+Since \( 0.54132 > 0.5 \):
+\[n \ln(e - 1) > \frac{n}{2}\]
+
+Thus, \( \xi \) is located to the right of the midpoint \( \frac{n}{2} \).
+
+\section*{IV. }
+\subsection*{IV-a}
+The table of divided differences:
+$$
+\begin{tabular}{c|ccccc}
+    $x_0 = 0$ & 1 & & & & \\
+    $x_1 = 1$ & 2 & 1 & & & \\
+    $x_2 = 1$ & 2 & -1 & -2 & & \\
+    $x_3 = 3$ & 0 & -1 & 0 & 0.6667 & \\
+    $x_4 = 3$ & 0 & 0 & 0.5 & 0.25 & -0.1389 \\
+\end{tabular}
+$$
+Then:$p_3(f;x)=5-2(x-0)+1(x-0)(x-1)+0.25(x-0)(x-1)(x-3)=\frac{1}{4}x^3-\frac{9}{4}x+5$.
+
+\subsection*{IV-b}
+ $$
+   \begin{aligned}
+    p_3'(f;x) &= -2 + x - 1 + x + 0.25 \left[ (x - 1)(x - 3) + x(x - 3) + x(x - 1) \right]   \\
+    &= 0.75x^2 - 2.25.
+   \end{aligned}
+   $$
+
+   Let $p_3'(f;x) = 0$,
+   \[x = \sqrt{\frac{2.25}{0.75}} = \sqrt{3}\]
+
+   Therefore, the approximate location of the minimum $x_{\text{min}}$ is around $\sqrt{3}$.
+
+\section*{V. }
+\subsection*{V-a}
+The table of divided differences:
+\[
+\begin{array}{c|cccccc}
+  0 & 0 & & & & & \\
+  1 & 1 & 1 & & & & \\
+  1 & 1 & 7 & 6 & & & \\
+  1 & 1 & 7 & 21 & 15 & & \\
+  2 & 128 & 127 & 120 & 99 & 42 & \\
+  2 & 128 & 448 & 321 & 201 & 102 & 30 \\
+\end{array}
+\]
+
+Thus, \(f[0,1,1,1,2,2]=30\).
+
+\subsection*{V-b}
+By \textbf{Corollary 2.22}, $\exists \xi \in (0,2)\ s.t.\frac{f^{(5)}(\xi)}{5!}=f[0,1,1,1,2,2]=3600$.
+
+Thus:$f^{(5)}(x)=7·6·5·4·3x^2=2520x^2 \\
+\Rightarrow \xi =\sqrt{\frac{10}{7}} \approx 1.195$
+
+\section*{VI. }
+\subsection*{VI-a}
+The table of divided differ:
+\[
+\begin{array}{c|ccccc}
+  0 & 1 & & & & \\
+  1 & 2 & 1 & & & \\
+  1 & 2 & -1 & -2 & & \\
+  3 & 0 & -1 & 0 & \frac{2}{3} & \\
+  3 & 0 & 0 & \frac{1}{2} & \frac{1}{4} & -\frac{5}{36} \\
+\end{array}
+\]
+
+Then:$p(x)=1+1x-2x(x-1)+\frac{2}{3}x(x-1)^2-\frac{5}{36}x(x-1)^2(x-3)$.
+
+$f(2) \approx p(2)=1+2-4+\frac{4}{3}+\frac{5}{18}=\frac{11}{18}$.
+
+\subsection*{VI-b}
+$$
+f(x) - p_N(f; x) = \frac{f^{(N+1)(\xi)}}{(N+1)!} \prod_{i=0}^k(x-x_i)^{m_i + 1},
+$$
+
+for some $\xi \in (a,b)$.$|f^{(5)}(\xi)| \le M$ on $[0, 3]$. The error of the above question:
+
+$$
+|f(2) - p(2)| \le \left| \frac{M}{5!} (2 - 0)(2 - 1)^2(2-3)^2 \right| = \frac{M}{60}.
+$$
+
+\section*{VII. }
+
+\subsection*{a. Proof for Forward Difference}
+
+We aim to prove that:
+\[\Delta^k f(x) = k! h^k f[x_0, x_1, \dots, x_k]\]
+The forward difference operator  \( \Delta f(x) \)is defined as:
+\[\Delta f(x) = f(x + h) - f(x)\]
+
+The second forward difference is:
+\[\Delta^2 f(x) = \Delta(\Delta f(x)) = \Delta f(x + h) - \Delta f(x) = [f(x + 2h) - f(x + h)] - [f(x + h) - f(x)]\]
+\[\Delta^2 f(x) = f(x + 2h) - 2f(x + h) + f(x)\]
+
+The k-th forward difference is:
+
+\[\Delta^k f(x) = \sum_{j=0}^k (-1)^{k-j} \binom{k}{j} f(x + jh)\]
+
+The divided difference \( f[x_0, x_1, \dots, x_k] \)  is a recursive formula defined as:
+
+\[f[x_j] = f(x_j)\]
+\[f[x_j, x_{j+1}, \dots, x_{j+k}] = \frac{f[x_{j+1},\dots, x_{j+k}] - f[x_j, \dots, x_{j+k-1}]}{x_{j+k} - x_j}\]
+
+If \( x_j = x + jh \) ,then\( x_{j+k} - x_j = kh \)
+
+The k-th forward difference is related to the k-th divided difference as follows:
+
+\[\Delta^k f(x) = \sum_{j=0}^k (-1)^{k-j} \binom{k}{j} f(x + jh)\]
+
+By expanding the divided differences in terms of forward differences:
+\[\Delta^k f(x) = k! h^k f[x_0, x_1, \dots, x_k]\]
+
+\subsection*{b. Proof for Backward Difference}
+
+\[\nabla f(x) = f(x) - f(x - h)\]
+
+The second backward difference is:
+\[\nabla^2 f(x) = \nabla(\nabla f(x)) = \nabla f(x) - \nabla f(x - h) = [f(x) - f(x - h)] - [f(x - h) - f(x - 2h)]\]
+\[\nabla^2 f(x) = f(x) - 2f(x - h) + f(x - 2h)\]
+
+the  \( k \) -th backward difference is:
+
+\[\nabla^k f(x) = \sum_{j=0}^k (-1)^j \binom{k}{j} f(x - jh)\]
+
+Expand the divided differences for the points \( x_0, x_{-1}, \dots, x_{-k} \) 。The \( k \)-th backward difference can then be expressed in terms of the\( k \)-th divided difference as:
+
+\[\nabla^k f(x) = k! h^k f[x_0, x_{-1}, \dots, x_{-k}]\]
+
+\section*{VIII. }
+The divided difference \(f[x_0, x_1, \dots, x_n]\) is recursively defined as:
+
+\[f[x_0] = f(x_0),\]
+\[f[x_0, x_1, \dots, x_n] = \frac{f[x_1, \dots, x_n] -f[x_0, \dots, x_{n-1}]}{x_n - x_0}.\]
+Then:
+\[\frac{\partial}{\partial x_0} f[x_0, x_1, \dots, x_n] = \frac{\partial}{\partial x_0} \left( \frac{f[x_1, \dots,x_n] - f[x_0, \dots, x_{n-1}]}{x_n - x_0} \right).\]
+
+\[\frac{\partial}{\partial x_0} \left( \frac{f[x_1, \dots, x_n] - f[x_0, \dots, x_{n-1}]}{x_n - x_0} \right)
+= \frac{(x_n - x_0) \frac{\partial}{\partial x_0} \left( f[x_1, \dots, x_n] - f[x_0, \dots, x_{n-1}] \right) + f[x_1, \dots, x_n] - f[x_0, \dots, x_{n-1}]}{(x_n - x_0)^2}.\]
+
+Since \(f[x_1, \dots, x_n]\) does not depend on \(x_0\), its derivative is zero.
+\[\frac{\partial}{\partial x_0} f[x_0, x_1, \dots, x_n] = \frac{f[x_0, \dots, x_{n-1}]}{x_n - x_0}.\]
+
+\[\frac{\partial}{\partial x_0} f[x_0, x_1, \dots, x_n] = f[x_0, x_0, x_1, \dots, x_n].\]
+Thus:
+\[\frac{\partial}{\partial x_i} f[x_0, x_1, \dots, x_n] = f[x_0, \dots, x_i, x_i, \dots, x_n].\]
+
+\section*{IX. }
+\( \forall p \in \tilde{P}_n \)
+\[\max_{x \in [-1,1]} \left| \frac{T_n(x)}{2^{n-1}} \right| \leq \max_{x \in [-1,1]} |p(x)|\]
+ \( T_n(x) \) denotes the \( n \)-th Chebyshev polynomial.
+
+\[\min \max_{y \in [-1,1]} |y^n+b_1y^{n-1}+\ldots+b_n| \geq \frac{1}{2^{n-1}}\]
+
+For $x \in [a,b]$ , take $x=\frac{b-a}{2}y+\frac{b+a}{2},\ y \in [-1,1]$. Then,
+
+\[\min \max_{x \in [a,b]} \left|a_0 x^n + a_1 x^{n-1} + \ldots + a_n \right|
+= \min \max_{y \in [-1,1]} \frac{|a_0| (b-a)^n}{2^n} \left| y^n + b_1 y^{n-1} + \ldots + b_n \right|\]
+
+\[\min \max_{x \in [a, b]} \left| a_0 x^n + a_1 x^{n-1} + \cdots + a_n \right|
+= \frac{|a_0| (b-a)^n}{2^{2n-1}}\]
+
+\section*{X. }
+\[T_n(x) = \cos(n \arccos(x))\]
+
+Recall that \(T_n(x)\) has the property:
+    \[|T_n(x)| \leq 1 \quad \text{for } x \in [-1, 1].\]
+    Therefore, we also have:
+    \[|T_n(a)| \geq 1 \quad \text{for } a > 1.\]
+    Hence, we can state:
+    \[|\hat{p}_n(x)| = \left|\frac{T_n(x)}{T_n(a)}\right| \leq \frac{|T_n(x)|}{|T_n(a)|} \leq \frac{1}{|T_n(a)|} \quad \text{for } x \in [-1, 1].\]
+
+ Let \(p \in P^a_n\). Then by definition:\[p(a) = 1.\]
+    For \(x \in [-1, 1]\), we have the following estimation:
+    \[\|p\|_\infty = \max_{x \in [-1, 1]} |p(x)| \geq |p(a)| = 1.\]
+
+    \[ \|\hat{p}_n\|_\infty = \max_{x \in [-1, 1]} \left| \frac{T_n(x)}{T_n(a)} \right| \leq \frac{1}{|T_n(a)|}.\]
+    Given that \(T_n(a) \geq 1\) for \(a > 1\), we conclude that:
+    \[\|\hat{p}_n\|_\infty \leq \frac{1}{\|p\|_\infty} \|p\|_\infty = \|p\|_\infty.\]
+    This shows that:
+    \[\|\hat{p}_n\|_\infty \leq \|p\|_\infty.\]
+
+\section*{XI. \[b_{n,k}(t):=\binom{n}{k} t^k (1-t)^{n-k},\ \ k = 0, 1, \ldots, n,\ \ t \in [0,1]\]
+Proof: \[ b_{n-1,k}(t)= \frac{n-k}{n} b_{n,k}(t)+\frac{k+1}{n} b_{n,k+1}(t)\]. }
+
+$$
+\forall k = 0, 1, \dots n,\ b_{n, k}(t)=\binom{n}{k}t^k(1-t)^{n-k},
+$$
+
+Then, 
+$$\begin{aligned}
+   \frac{n-k}{n}b_{n,k}(t)+\frac{k+1}{n}b_{n,k+1}(t)
+   =& \frac{n-k}{n} \frac{n!}{k!(n-k)!} t^k(1-t)^{n-k}+ \frac{k+1}{n} \frac{n!}{(k+1)!(n-k-1)!} t^{k+1}(1-t)^{n-k-1} \\
+   =& \frac{(n-1)!}{k!(n-k-1)!} t^k(1-t)^{n-k} +\frac{(n-1)!}{k!(n-k-1)!} t^{k+1}(1-t)^{n-k-1} \\
+   =& \binom{n-1}{k} t^k(1-t)^{n-k-1}(1 - t + t)   \\
+   =& \binom{n-1}{k} t^k(1-t)^{n-k-1}  \\
+   =& b_{n-1, k}(t).
+\end{aligned}$$
+
+\section*{XII.Proof: \[\int_{0}^{1} b_{n,k}(t) \, dt = \frac{1}{n+1}.\] }
+
+We know that:\[ B(p, q) = \int_0^1 t^{p-1} (1-t)^{q-1}dt,\ p>0,q>0\]
+Thus:
+\begin{align*}
+  \int_0^1 b_{n,k}(t) &= \binom{n}{k}\int_0^1 t^k (1-t)^{n-k}dt \\
+  &= \binom{n}{k}B(k+1,n-k+1) \\
+  &= \frac{n!}{(k+1)!(n-k)!} \left[ \left. t^{k+1}(1-t)^{n-k} \right|_{0}^{1} - (n-k)\int_{0}^{1} t^{k+1} (1-t)^{n-k-1} dt  \right]\\
+   &= \frac{n!}{(k+1)!(n-k-1)!} \int_0^1t^{k+1}(1-t)^{n-k-1}dt    \\
+   &= \int_0^1 t^n \, dt \\
+   &= \left[ \frac{t^n}{n+1} \right]_0^1\\
+  &= \frac{1}{n+1} \\
+\end{align*}
+
+% ===============================================
+
+\end{document}
