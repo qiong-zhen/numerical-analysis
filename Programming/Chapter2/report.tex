@@ -1,0 +1,82 @@
+\documentclass[a4paper]{article}
+\usepackage{ctex} 
+\usepackage[affil-it]{authblk}
+\usepackage[backend=bibtex,style=numeric]{biblatex}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+
+\usepackage{geometry}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+\addbibresource{citation.bib}
+
+\begin{document}
+% =================================================
+\title{Numerical Analysis Report1}
+
+\author{谭希 3220100027
+  \thanks{Electronic address: \texttt{3220100027@zju.edu.cn}}}
+\affil{(数学与应用数学2201), Zhejiang University }
+
+
+\date{Due time: \today}
+
+\maketitle
+
+% ============================================
+\section{A}
+\subsection{Interpolation.hpp}
+
+ProblemFunction:Define a specific function:
+\[
+f(x) = \frac{1}{1 + ax^2}
+\]
+which is used for interpolation calculations.
+
+Interpolation:
+Manage the interpolation points \texttt{x\_points} and the predicted \texttt{y\_pre} values. The constructor generates a series of uniformly distributed \texttt{x} values.
+
+NewtonInterpolation:Implements Newton's interpolation method. Allowing for interpolation based on given \texttt{x} and \texttt{y} values, or through the \texttt{ProblemFunction}.
+HermiteInterpolator:Implements Hermite interpolation.
+
+\section{B}
+\begin{enumerate}
+    \item An array \( N \) is defined, containing different sample sizes (2, 4, 6, 8).
+    \item For each \( N[i] \), compute evenly distributed \( x \) values from -5 to 5.
+    \item Use a \texttt{ProblemFunction} object to generate the corresponding function values.
+    \item Then:
+    \begin{itemize}
+        \item Create a \texttt{NewtonInterpolation} object to execute Newton's interpolation method, setting the interpolation range and sample size.
+        \item Call the \texttt{newtonInterpolation} method to perform the interpolation.
+    \end{itemize}
+\end{enumerate}
+
+
+\section{C}
+
+generates \texttt{n} Chebyshev nodes within the interval \([st, ed]\). 
+The code implements interpolation of the function (defined by \texttt{ProblemFunction}) using Chebyshev nodes and Newton interpolation to obtain function values at these nodes
+
+\section{D}
+
+Create a \texttt{HermiteInterpolator} object by passing the known vectors \(x\), \(y\), and \(dy\), along with the interpolation range (from 0 to 13), and specify the number of interpolation points as 1000.
+
+Call the \texttt{getPolynomial()} method to obtain the interpolation polynomial.  
+Use the \texttt{getPointValue(10)} method to calculate and obtain the interpolated result at \(x = 10\).
+
+
+Through a loop, calculate the slope (derivative value) between adjacent points and identify the maximum value among these slopes.
+
+Determine whether the maximum derivative value exceeds 81 and output the corresponding information.
+
+
+\section{E}
+
+\section{F}
+
+% ============================================
+\end{document}
