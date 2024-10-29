@@ -48,3 +48,14 @@ report: report.tex
 clean:
 	rm -f $(EXE) *.aux *.log *.pdf
 
+# 运行image文件夹下的所有Python脚本
+py:
+	@echo "Running Python scripts in image folder:"
+	@python3 image/B.py
+	@python3 image/C.py
+	@python3 image/D.py
+	@python3 image/E.py
+	@python3 image/F.py
+
+# 添加phony目标以避免与真实文件冲突
+.PHONY: all run report clean py
