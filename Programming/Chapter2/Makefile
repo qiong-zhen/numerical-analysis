@@ -59,3 +59,7 @@ py:
 
 # 添加phony目标以避免与真实文件冲突
 .PHONY: all run report clean py
+
+# 如果需要，额外清理Python输出文件的目标
+clean-py:
+	rm -f image/*.out
