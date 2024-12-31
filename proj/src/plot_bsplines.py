@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 读取数据
-data = np.loadtxt('bspline_results.txt', skiprows=1)
+data = np.loadtxt('../include/bspline_results.txt', skiprows=1)
 x = data[:, 0]
 y_exact = data[:, 1]
 y_linear = data[:, 2]

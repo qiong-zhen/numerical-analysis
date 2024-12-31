@@ -8,7 +8,7 @@ if not os.path.exists('figure'):
 
 def plot_comparison(boundary_type):
     # 读取数据
-    data = np.loadtxt(f'figure/spline_data_{boundary_type}.txt', skiprows=1)
+    data = np.loadtxt(f'../include/spline_data_{boundary_type}.txt', skiprows=1)
     x = data[:, 0]
     y_exact = data[:, 1]
     y_spline1 = data[:, 2]  # Theorem 3.57

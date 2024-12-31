@@ -13,7 +13,7 @@ double f(double x) {
 }
 
 int main() {
-    cout << "======================A======================" << endl;
+    wcout << L"======================A======================" << endl;
     
     vector<int> N_array = {6, 11, 21, 41, 81};
     vector<double> errors;  // 存储误差
@@ -50,21 +50,21 @@ int main() {
         }
         data_file.close();
         
-        cout << "N = " << N << ", Error = " << scientific << setprecision(6) 
-             << max_error << endl;
+        wcout << L"N = " << N << L", Error = " << scientific << setprecision(6) 
+              << max_error << endl;
         
         // 打印样条表达式
-        cout << "\nPiecewise polynomial expressions for N = " << N << ":" << endl;
+        wcout << L"\nPiecewise polynomial expressions for N = " << N << L":" << endl;
         spline.print_Expression();
-        cout << "\n";
+        wcout << L"\n";
     }
     
     // 计算收敛率
-    cout << "\nConvergence rates:" << endl;
+    wcout << L"\nConvergence rates:" << endl;
     for(size_t i = 1; i < N_array.size(); ++i) {
         double rate = log(errors[i-1]/errors[i]) / log(2.0);
-        cout << "From N=" << N_array[i-1] << " to N=" << N_array[i] 
-             << ": " << fixed << setprecision(4) << rate << endl;
+        wcout << L"From N=" << N_array[i-1] << L" to N=" << N_array[i] 
+              << L": " << fixed << setprecision(4) << rate << endl;
     }
     
     // 保存收敛率数据
@@ -74,6 +74,6 @@ int main() {
     }
     conv_file.close();
     
-    cout << "======================A======================" << endl;
+    wcout << L"======================A======================" << endl;
     return 0;
 }

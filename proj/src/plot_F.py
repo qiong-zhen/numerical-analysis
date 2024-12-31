@@ -8,7 +8,7 @@ if not os.path.exists('figure'):
 
 def plot_case1():
     # 读取三点情况的数据
-    data = np.loadtxt('figure/divided_diff_1.txt', skiprows=1)
+    data = np.loadtxt('../include/divided_diff_1.txt', skiprows=1)
     x = data[:, 0]
     f0 = data[:, 1]  # f[0]
     f1 = data[:, 2]  # f[1]
@@ -52,7 +52,7 @@ def plot_case1():
 
 def plot_case2():
     # 读取四点情况的数据
-    data = np.loadtxt('figure/divided_diff_2.txt', skiprows=1)
+    data = np.loadtxt('../include/divided_diff_2.txt', skiprows=1)
     x = data[:, 0]
     f0 = data[:, 1]   # f[0]
     f1 = data[:, 2]   # f[1]

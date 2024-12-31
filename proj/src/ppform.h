@@ -9,7 +9,6 @@
 #include <Eigen/Dense>
 
 
-
 /*
 基类，多项式样条
 */

@@ -13,7 +13,7 @@ colors = ['b', 'g', 'r', 'c', 'm']
 for N in N_values:
     plt.figure(figsize=(10, 6))
     
-    data = np.loadtxt(f'figure/runge_data_{N}.txt', skiprows=1)
+    data = np.loadtxt(f'../include/runge_data_{N}.txt', skiprows=1)
     x = data[:, 0]
     y_exact = data[:, 1]
     y_spline = data[:, 2]
@@ -34,7 +34,7 @@ for N in N_values:
 plt.figure(figsize=(15, 10))
 
 for N, color in zip(N_values, colors):
-    data = np.loadtxt(f'figure/runge_data_{N}.txt', skiprows=1)
+    data = np.loadtxt(f'../include/runge_data_{N}.txt', skiprows=1)
     x = data[:, 0]
     y_exact = data[:, 1]
     y_spline = data[:, 2]
@@ -52,7 +52,7 @@ plt.savefig('figure/runge_interpolation_comparison.png')
 plt.close()
 
 # 绘制收敛率
-errors = np.loadtxt('figure/convergence_data.txt')
+errors = np.loadtxt('../include/convergence_data.txt')
 plt.figure(figsize=(10, 6))
 plt.loglog(N_values, errors, 'bo-')
 plt.grid(True)

@@ -8,7 +8,7 @@ if not os.path.exists('figure'):
     os.makedirs('figure')
 
 def plot_curve2(N):
-    data = np.loadtxt(f'figure/curve2_N{N}.txt', skiprows=1)
+    data = np.loadtxt(f'../include/curve2_N{N}.txt', skiprows=1)
     t = data[:, 0]
     uniform_x, uniform_y = data[:, 1], data[:, 2]
     chordal_x, chordal_y = data[:, 3], data[:, 4]
@@ -38,7 +38,7 @@ def plot_curve2(N):
     plt.close()
 
 def plot_curve3(N):
-    data = np.loadtxt(f'figure/curve3_N{N}.txt', skiprows=1)
+    data = np.loadtxt(f'fig../include/curve3_N{N}.txt', skiprows=1)
     t = data[:, 0]
     uniform_x, uniform_y, uniform_z = data[:, 1], data[:, 2], data[:, 3]
     chordal_x, chordal_y, chordal_z = data[:, 4], data[:, 5], data[:, 6]
