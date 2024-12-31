@@ -1,0 +1,239 @@
+\documentclass[a4paper]{article}
+\usepackage{ctex} 
+\usepackage[affil-it]{authblk}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+\title{Numerical Analysis Report 1}
+\author[1]{王丹}
+\affil[1]{University, Email: \texttt{1901298538@tan.edu.cn}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{程序结构说明}
+
+\section{类及其结构}
+
+\section{所用到的数学类理论}
+\subsection{pp form splines}
+
+从定理3.3可得令$m_i = s^\prime(f;x_i),for\ s\in \mathcal{S}_3^2$,对于$i=2,3,\cdots,N-1$，有：
+\begin{equation}
+    \lambda_i m_{i-1} +2m_i +\mu_i m_{i+1} = 3\mu_i f[x_i,x_{i+1}]+3\lambda_if[x_{i-1},x_i]
+\end{equation}
+式中
+\begin{equation}
+    \mu_i = \frac{x_i-x_{i-1}}{x_{i+1}-x_{i-1}}=\frac{x_i-x_{i-1}}{x_{i+1}-x_{i}+x_i-x_{i-1}} = \frac{h_i}{h_{i+1}+h_i}, \ \ \lambda_i = \frac{x_{i+1}-x_{i}}{x_{i+1}-x_{i-1}} = \frac{h_{i+1}}{h_{i+1}+h_i},
+\end{equation}
+\subsubsection{完全三次样条}
+完全三次样条满足边界条件
+\begin{equation}
+    s^\prime(f;a) = f^\prime(a) \ \ 和 \ \ s^\prime(f;b)=b
+\end{equation}
+即给定曲线在区间两个端点的一阶导数。
+令$b_i =3\mu_{i+1} f[x_{i+1},x_{i+2}]+3\lambda_{i+1}f[x_{i},x_{i+1}] ，i=1,\dots,N-2$则有：
+\begin{equation}
+\begin{bmatrix}2&\mu_2\\\lambda_3&2&\mu_3\\&&\ddots\\&&\lambda_i&2&\mu_i\\&&&&\ddots\\&&&&\lambda_{N-2}&2&\mu_{N-2}\\&&&&&\lambda_{N-1}&2\end{bmatrix}\begin{bmatrix}m_2\\m_3\\\vdots\\m_i\\\vdots\\m_{N-2}\\m_{N-1}\end{bmatrix}=\mathrm{b} = \begin{bmatrix}
+    b_1-\lambda_2m_1 \\
+    b_2 \\
+    \vdots\\
+    b_{i-1}\\
+    \vdots \\
+     b_{N-3}\\ 
+     b_{N-2} - \mu_{N-1}m_N
+\end{bmatrix}
+\end{equation}
+\subsubsection{自然三次样条}
+自然三次样条已知端点两处的二阶导数值：
+\begin{equation}
+    s^{\prime \prime}(f;a)=0 \ \ s^{\prime \prime}(f;b)=0 
+\end{equation}
+由定理3.3知
+\begin{equation}
+    s_i(x) = f_i + (x-x_i)m_i + (x-x_i)^2 \frac{K_i-m_i}{x_{i+1}-x_i} + (x-x_i)^2 (x-x_{i+1})\frac{m_i + m_{i+1}-2K_i}{(x_{i+1}-x_i)^2}
+\end{equation}
+对上式求二阶导得
+\begin{equation}
+    s_i^{\prime\prime}(x) = 2\frac{K_i-m_i}{x_{i+1}-x_i} + 2(x-x_{i+1})\frac{m_i+m_{i+1}-2K_i}{(x_{i+1}-x_i)^2} + 4(x-x_{i})\frac{m_i+m_{i+1}-2K_i}{(x_{i+1}-x_i)^2} 
+\end{equation}
+整理得到：
+\begin{equation}
+    s_i^{\prime\prime}(x) = \frac{6x-4x_i-2x_{i+1}-2h_i}{h_i^2}m_i + \frac{6x-4x_i-2x_{i+1}}{h_i^2}m_{i+1}+K_i\frac{-12x+8x_i+4x_{i+1}+2h_i}{h_i^2}
+\end{equation}
+上式可化为：
+\begin{equation}
+    s_i^{\prime\prime}(x) = \frac{6x-2x_i-4x_{i+1}}{h_i^2}m_i+ \frac{6x-4x_i-2x_{i+1}}{h_i^2}m_{i+1} + \frac{-12x+6x_i+6x_{i+1}}{h_i^2}K_i
+\end{equation}
+若曲线在$[x_1,x_2]$之上，令$s_i^{\prime\prime}(x_1)=0$，于是有：
+\begin{equation}
+    s_1^{\prime\prime}(x_1) = -\frac{4}{h_1}m_0 - \frac{2}{h_1}m_1 + \frac{6}{h_1} \frac{f_2-f_1}{h_1}
+\end{equation}
+则有：
+\begin{equation}
+    2m_0+m_1 = 3f[x_1,x_2]-\frac{2}{h_1} s_1^{\prime\prime}(x_1) = 3f[x_1,x_2]
+\end{equation}
+
+同理我们可以得到$m_{N-1} + 2m_N = 3f[x_{N-1},x_N]$
+
+于是有：
+\begin{equation}
+    \left\{ 
+    \begin{array}{c}
+    2m_1+m_2 = 3f[x_1,x_2] =g_0      \\
+          m_{N-1} + 2m_N = 3f[x_{N-1},x_N]=g_{N-1}
+    \end{array}
+    \right.
+\end{equation}
+
+因此得到：
+
+
+\begin{equation}
+\begin{bmatrix}2&1
+\\\lambda_2&2&\mu_2
+\\&&\ddots\\&&\lambda_i&2&\mu_i\\&&&&\ddots\\&&&&\lambda_{N-1}&2&\mu_{N-1}\\&&&&&1&2\end{bmatrix}\begin{bmatrix}m_1\\ m_2\\m_3\\\vdots\\m_i\\\vdots\\m_{N-1}\\mN\end{bmatrix}=\mathrm{b} = \begin{bmatrix}
+    g_0 \\
+    b_1 \\
+    \vdots \\
+    b_{i -1}\\
+    \vdots \\
+    b_{N-2}\\
+    g_{N-1}
+\end{bmatrix}
+\end{equation}
+其中
+
+\subsubsection{周期三次样条}
+周期三次样条满足：
+\begin{equation}
+    s(f;b) = s(f;a),s^\prime (f;b) = s^\prime (f;a),s^{\prime\prime} (f;b) = s^{\prime\prime} (f;a)
+\end{equation}
+即
+\begin{equation}
+    s(x_1) = s(x_N) \ \ s^\prime(x_1) = s^\prime(x_N) \ \ s^{\prime\prime}(x_1) = s^{\prime\prime}(x_N)
+\end{equation}
+
+由一阶导相等得条件可得：
+\begin{gather}
+    s_1^\prime(x_1) = m_1 \\
+    s_{N-1}^\prime(x_N) = m_N 
+\end{gather}
+
+由二阶导相等得条件可得：
+\begin{equation}
+    -\frac{4}{h_1}m_1 - \frac{2}{h_1}m_2 + \frac{6}{h_1}K_1 = \frac{2}{h_{N-1}}m_{N-1}+\frac{4}{h_{N-1}}m_N -\frac{6}{h_{N-1}^2}K_{N-1}
+\end{equation}
+进一步推出：
+\begin{equation}
+  \frac{1}{h_1} m_2 + \frac{1}{h_{N-1}} m_{N-1} +(\frac{1}{h_{N-1}}+ \frac{1}{h_1})m_N = 3\frac{1}{h_1}K_1 +3\frac{1}{h_{N-1}}K_{N-1}
+\end{equation}
+令$\lambda_N =\frac{x_2-x_1}{x_2-x_1 +x_N-x_{N-1}}$和$\mu_N = \frac{x_N-x_{N-1}}{x_2-x_1 +x_N-x_{N-1}}$于是有：
+\begin{gather}
+    \left\{
+    \begin{array}{c}
+    m_1 = m_N \\
+        \mu_N m_2 + 2\lambda_N m_{N-1} + 2m_N = 3(\mu_Nf[x_1,x_2]+\lambda_N f[x_{N-1},x_N])
+    \end{array}
+    \right.
+\end{gather}
+于是有方程组：
+\begin{equation}
+\begin{bmatrix}2&\mu_2\\\lambda_3&2&\mu_3\\&&\ddots\\&&\lambda_i&2&\mu_i\\&&&&\ddots\\&&&&\lambda_{N-2}&2&\mu_{N-2}\\&&&&&\lambda_{N-1}&2 &\mu_{N-1} \\
+\mu_N&&&&&&2\lambda_N &2 \end{bmatrix}
+\begin{bmatrix}m_2\\m_3\\\vdots\\m_i\\\vdots\\m_{N-2}\\m_{N-1}\\
+m_N\end{bmatrix}=\mathrm{b} = \begin{bmatrix}
+    b_1 \\
+    b_2 \\
+    \vdots \\
+    b_i \\
+    \vdots \\
+    b_{N-2}\\
+    g_N
+\end{bmatrix}
+\end{equation}
+\subsection{B-splines}
+由定理3.57可知，存在唯一的$S(x)\in \mathcal{S}_3^2$对$f(x)$在点$1,2,\cdots,N$进行插值，并有$S^\prime(1)=f^\prime(1)$和$S^\prime(N) = f^\prime(N)$，因此B-样条插值函数为：
+\begin{equation}
+    S(x) = \sum_{i=-1}^{N}a_i B_{i}^3(x)
+\end{equation}
+系数$a_i$通过求解线性方程组$Ma=b$获得。
+\begin{equation}
+    f(t_i)=S(t_i) = a_{i-2}B^3_{i-2}(t_i)+a_{i-1}B^3_{i-1}(t_i)+a_{i}B^3_{i}(t_i)
+\end{equation}
+在上述等式的基础之上引入边界条件就可求解系数$a= [a_{-1},a_0,a_1,\cdots,a_{N}]^T$
+\subsubsection{完全三次样条}
+对于完全三次样条来讲，存在边界条件为在端点处的一阶导数相等：
+\begin{equation}
+    S^\prime(t_1)= f^\prime(t_1)
+\end{equation}
+\begin{equation}
+    S^\prime(t_N) = S^\prime(t_N)
+\end{equation}
+且$S^\prime(x) = \sum_{i=-1}^{N}a_i B_i^{\prime 3}(x)$
+于是线性方程组为：
+\begin{equation}
+    M = \begin{bmatrix}
+        B_{-1}^{\prime 3}(t_1)& B_{0}^{\prime 3}(t_1) &B_{1}^{\prime 3}(t_1)\\
+        B_{-1}^3(t_1) &B_{0}^3(t_1)&B_{1}^3(t_1)\\
+        &\ddots &\ddots&\ddots&\\
+        &&B_{N-2}^3(t_N)&B_{N-1}^3(t_N)&B_{N}^3(t_N)\\
+        &&B_{N-2}^{\prime 3}(t_N)&B_{N-1}^{\prime3}(t_N)&B_{N}^{\prime3}(t_N)\\
+    \end{bmatrix}
+\end{equation}
+\begin{equation}
+    b^T = [f^\prime(t_1),f(t_1),\cdots,f(t_N),f^{\prime}(t_N)]
+\end{equation}
+
+\subsubsection{周期边界条件}
+对于周期边界条件而言，有：
+\begin{equation}
+    S(t_1) = S(t_N)
+\end{equation}
+
+\begin{equation}
+    S^\prime(t_1) = S^\prime(t_N)
+\end{equation}
+
+\begin{equation}
+    S^{\prime \prime}(t_1) = S^{\prime \prime}(t_N)
+\end{equation}
+于是有:
+\begin{equation}
+    M = \begin{bmatrix}
+        -B_{-1}^{\prime3}(t_1)&-B_{0}^{\prime3}(t_1)&-B_{1}^{\prime3}(t_1) &0&\cdots&0&B_{N-2}^{\prime3}(t_N)&B_{N-1}^{\prime3}(t_N)&B_{N}^{\prime3}(t_N) \\
+        B_{-1}^3(t_1)&B_{0}^3(t_1) &B_{1}^3(t1) \\
+        & \ddots & \ddots & \ddots \\
+        &&&&&0 & B_{N-2}^3(t_N)&B_{N-1}^3(t_N)&B_{N}^3(t_N)\\
+        -B_{-1}^{\prime\prime3}(t_1)&-B_{0}^{\prime\prime3}(t_1)&-B_{1}^{\prime\prime3}(t_1) &0&\cdots&0&B_{N-2}^{\prime\prime3}(t_N)&B_{N-1}^{\prime\prime3}(t_N)&B_{N}^{\prime\prime3}(t_N)
+    \end{bmatrix}
+\end{equation}
+\begin{equation}
+    b^T = [0,f(t_1),\cdots,f(t_{N-1}),f(t_N),0]^T
+\end{equation}
+
+\subsubsection{自然样条}
+自然边界条件为：
+\begin{equation}
+    S^{\prime \prime}(t_1) = S^{\prime\prime}(t_N)=0
+\end{equation}
+于是通过求解线性方程组$Ma=b$来得到B-slpines的系数:
+\begin{equation}
+    M=\begin{bmatrix}
+        B_{-1}^{\prime \prime 3}(t_1)& B_{0}^{\prime \prime 3}(t_1) &B_{1}^{\prime \prime 3}(t_1)\\
+        B_{-1}^3(t_1) &B_{0}^3(t_1)&B_{1}^3(t_1)\\
+        &\ddots &\ddots&\ddots&\\
+        &&B_{N-2}^3(t_N)&B_{N-1}^3(t_N)&B_{N}^3(t_N)\\
+        &&B_{N-2}^{\prime \prime 3}(t_N)&B_{N-1}^{\prime \prime 3}(t_N)&B_{N}^{\prime \prime 3}(t_N)\\
+    \end{bmatrix}
+\end{equation}
+\begin{equation}
+    b^T = [0,f(t_1),\cdots,f(t_N),0]^T
+\end{equation}
+\end{document}
