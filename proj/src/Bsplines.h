@@ -1,6 +1,7 @@
 #ifndef BSPLINES_H
 #define BSPLINES_H
 
+#include <iostream>
 #include <vector>
 #include <stdexcept>
 #include <Eigen/Dense>
