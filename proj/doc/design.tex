@@ -17,9 +17,61 @@
 \begin{document}
 \maketitle
 
-\section*{Program Structure Description}
+\section*{Program Structure Description,Classes and Their Structures}
 
-\section*{Classes and Their Structures}
+\begin{itemize}
+    \item The \texttt{CubicBsplines} class is focused on B-spline interpolation
+    \item The \texttt{pp\_form} class provides the framework for polynomial interpolation, supporting linear and polynomial interpolation techniques and allowing for easy extension.
+\end{itemize}
+------------------------------------------------------------\\
+ It mainly consists of two classes: \texttt{CubicBsplines} and \texttt{pp\_form}. The \texttt{CubicBsplines} class is designed to perform cubic B-spline interpolation, while the \texttt{pp\_form} class serves as an abstract base class for polynomial interpolation, allowing subclasses to implement various interpolation methods.
+
+\section{Class \texttt{CubicBsplines}}
+
+The \texttt{CubicBsplines} class is responsible for cubic B-spline interpolation, supporting two different boundary conditions: \textbf{Theorem 3.57's boundary conditions (complete boundary conditions)} and \textbf{Theorem 3.58's natural boundary conditions}.
+
+\begin{itemize}
+    \item \texttt{computeCoeffs357} and \texttt{computeCoeffs358}: These methods compute the B-spline coefficients for different boundary conditions, relying on the Eigen library for matrix operations.
+    \item \texttt{interpolate357} and \texttt{interpolate358}: These methods provide interfaces to perform interpolation using specific boundary conditions.
+    \item \texttt{evaluate}: This method evaluates the value of the B-spline at a given point.
+    \item \texttt{B3}: This is a static method that computes the value of the cubic B-spline basis function, supporting calculation for different segments of the B-spline.
+\end{itemize}
+
+\section{Class \texttt{pp\_form}}
+
+The \texttt{pp\_form} class is an abstract class that defines common interfaces for polynomial interpolation. All specific polynomial interpolation classes, such as linear and cubic interpolation, should inherit from this class and implement its virtual functions. This class mainly manages the nodes and function values for interpolation and provides a framework for various polynomial interpolation techniques.
+
+\begin{itemize}
+    \item \texttt{operator()}: Evaluates the polynomial at a given point \(x\).
+    \item \texttt{compute\_Interpolation}: A pure virtual function that requires subclasses to implement the specific interpolation computation.
+    \item \texttt{print\_Expression}: A pure virtual function for printing the polynomial expression.
+\end{itemize}
+
+\section{Classes \texttt{pp\_form\_linear} and \texttt{pp\_form\_cubic}}
+
+These two classes implement linear interpolation and cubic polynomial interpolation, respectively, and both inherit from the \texttt{pp\_form} class.
+
+\subsubsection{\texttt{pp\_form\_linear}}
+\begin{itemize}
+    \item \texttt{compute\_Interpolation}: Computes the coefficients for linear interpolation and fills the \texttt{coeffs} vector.
+    \item \texttt{print\_Expression}: Prints the linear polynomial expression for each interval.
+\end{itemize}
+
+\subsection{\texttt{pp\_form\_cubic}}
+\begin{itemize}
+    \item \texttt{setup\_basic\_system}: Constructs and solves a linear system to compute the coefficients for cubic polynomials.
+    \item \texttt{compute\_Interpolation}: Implements the computation of cubic polynomial interpolation coefficients. It uses the Eigen library to set up and solve the linear system.
+\end{itemize}
+
+\section{Class Relationship Explanation}
+
+\begin{itemize}
+    \item The \texttt{CubicBsplines} class focuses on cubic B-spline interpolation, providing methods to compute the spline coefficients and evaluate the spline at specific points. It operates independently and uses the Eigen library to perform matrix operations for solving linear systems.
+    \item The \texttt{pp\_form} class serves as the base class for polynomial interpolation. It defines a common interface for various polynomial interpolation methods. Subclasses can implement different interpolation techniques, such as linear and cubic interpolation.
+    \item The \texttt{pp\_form\_linear} and \texttt{pp\_form\_cubic} classes inherit from \texttt{pp\_form} and implement specific methods for linear and cubic polynomial interpolation, respectively.
+\end{itemize}
+
+-------------------------------------------------------
 
 \section*{Mathematical Theories Used}
 \subsection{pp form splines}
