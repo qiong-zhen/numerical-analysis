@@ -1,65 +1,70 @@
+# 定义变量
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall -I"D:/HuaweiMoveData/Users/谭希1/Desktop/proj/proj/include/eigen"
+CXXFLAGS = -std=c++11 -Wall -I./src -I/usr/include/eigen3
+LATEX = xelatex
+PYTHON = python3
+TARGETS = runge_spline spline_C spline_D spline_E spline_F test_bsplines test_ppform
+TEX_FILES = doc/design.tex doc/report.tex
+PDF_FILES = $(TEX_FILES:.tex=.pdf)
+PLOTS = plot_bsplines.py plot_C.py plot_D.py plot_E.py plot_F.py plot_results.py plot_runge.py
 
-# 目标文件
-TARGETS = runge_spline spline_C spline_D spline_E spline_F
+all: $(TARGETS) $(PDF_FILES) plot
 
-# 源文件
-SOURCES_A = A.cpp
-SOURCES_C = C.cpp
-SOURCES_D = D.cpp
-SOURCES_E = E.cpp
-SOURCES_F = F.cpp
+# 编译 C++ 程序
+runge_spline: src/A.cpp src/ppform.h
+	$(CXX) $(CXXFLAGS) -o $@ src/A.cpp
 
+spline_C: src/C.cpp src/ppform.h
+	$(CXX) $(CXXFLAGS) -o $@ src/C.cpp
 
-# 头文件依赖
-HEADERS = src/ppform.h
+spline_D: src/D.cpp src/ppform.h
+	$(CXX) $(CXXFLAGS) -o $@ src/D.cpp
 
-# 默认目标
-all: $(TARGETS)
+spline_E: src/E.cpp src/ppform.h
+	$(CXX) $(CXXFLAGS) -o $@ src/E.cpp
 
-# 编译规则
-runge_spline: $(SOURCES_A) $(HEADERS)
-	$(CXX) $(CXXFLAGS) -o $@ $(SOURCES_A)
+spline_F: src/F.cpp src/ppform.h
+	$(CXX) $(CXXFLAGS) -o $@ src/F.cpp
 
-spline_C: $(SOURCES_C) $(HEADERS)
-	$(CXX) $(CXXFLAGS) -o $@ $(SOURCES_C)
+# 新增的 C++ 程序
+test_bsplines: src/test_bsplines.cpp src/ppform.h
+	$(CXX) $(CXXFLAGS) -o $@ src/test_bsplines.cpp
 
-spline_D: $(SOURCES_D) $(HEADERS)
-	$(CXX) $(CXXFLAGS) -o $@ $(SOURCES_D)
+test_ppform: src/test_ppform.cpp src/ppform.h
+	$(CXX) $(CXXFLAGS) -o $@ src/test_ppform.cpp
 
-spline_E: $(SOURCES_E) $(HEADERS)
-	$(CXX) $(CXXFLAGS) -o $@ $(SOURCES_E)
+# LaTeX
+%.pdf: %.tex
+	$(LATEX) -output-directory=$(dir $<) $<
 
-spline_F: $(SOURCES_F) $(HEADERS)
-	$(CXX) $(CXXFLAGS) -o $@ $(SOURCES_F)
-
-
-# 创建figure目录
-figure:
-	mkdir -p figure
-
-# 清理规则
-clean:
-	rm -f $(TARGETS) *.txt
-	rm -rf figure/
-
-# 运行测试
+# 测试以及运行
 test: $(TARGETS) figure
 	./runge_spline
 	./spline_C
 	./spline_D
 	./spline_E
 	./spline_F
+	./test_bsplines
+	./test_ppform
 
+plot: test figure
+	cd src && $(PYTHON) plot_runge.py
+	cd src && $(PYTHON) plot_bsplines.py
+	cd src && $(PYTHON) plot_C.py
+	cd src && $(PYTHON) plot_D.py
+	cd src && $(PYTHON) plot_E.py
+	cd src && $(PYTHON) plot_F.py
+	cd src && $(PYTHON) plot_results.py
 
-# 绘图脚本
-plot: test
-	python plot_runge.py
-	python plot_C.py
-	python plot_D.py
-	python plot_E.py
-	python plot_F.py
-	
+# clean 清理规则
+clean:
+	rm -f $(TARGETS)
+	rm -f $(PDF_FILES)
+	rm -f doc/*.aux doc/*.log doc/*.out
+	rm -rf figure/
+
+# 创建 figure 目录
+figure:
+	mkdir -p figure
 
 .PHONY: all clean test plot figure
