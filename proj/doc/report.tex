@@ -44,7 +44,7 @@ f(x) = x^2
     \item To facilitate subsequent graphical display and comparison, a file with more refined interpolation points is generated:
 \end{itemize}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -68,6 +68,13 @@ $x$ & exact & linear & cubic \\
 \end{table}
 
 The graphical results are shown in the following figure:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figure/interpolation_comparison.png}
+    \caption{Interpolation\_comparison}
+    \label{fig:interpolation_comparison}
+\end{figure}
 
 \section*{test Bsplines}
 Using the Function \(\sin(x)\) to Generate Test Data
@@ -101,7 +108,7 @@ Compilation Results:
 \text{Coefficients: } -0.267725, 1.0709, 1.03296, 0.253058, -1.19847
 \]
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|c|}
 \hline
@@ -120,6 +127,13 @@ $x$ & Interpolated Value \\
 \end{tabular}
 \caption{Interpolated values for different methods}
 \end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figure/bspline_comparison.png}
+    \caption{bspline\_comparison}
+    \label{fig:bspline_comparison}
+\end{figure}
 
 \section*{A}
 \subsection*{Test Function and Interpolation}
@@ -172,6 +186,57 @@ The final results are as follows:
 \subsection*{Graphs and Figures}
 
 The following graphs illustrate the results of the interpolation process.
+% 插入Runge插值的5幅图
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/runge_interpolation_N6.png}
+    \caption{Runge Interpolation (N=6)}
+    \label{fig:runge_N6}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/runge_interpolation_N11.png}
+    \caption{Runge Interpolation (N=11)}
+    \label{fig:runge_N11}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/runge_interpolation_N21.png}
+    \caption{Runge Interpolation (N=21)}
+    \label{fig:runge_N21}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/runge_interpolation_N41.png}
+    \caption{Runge Interpolation (N=41)}
+    \label{fig:runge_N41}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/runge_interpolation_N81.png}
+    \caption{Runge Interpolation (N=81)}
+    \label{fig:runge_N81}
+\end{figure}
+
+% 插入对比图
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/runge_interpolation_comparison.png}
+    \caption{Runge Interpolation Comparison}
+    \label{fig:runge_comparison}
+\end{figure}
+
+% 插入收敛率图
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figure/convergence_rate.png}
+    \caption{Convergence Rate}
+    \label{fig:convergence_rate}
+\end{figure}
 
 \section*{C}
 The objective function is given by:
@@ -223,6 +288,13 @@ $x$ & exact & spline1 & spline2 \\
 \caption{Interpolation data for cubic splines}
 \end{table}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure/spline_comparison_natural.png}
+    \caption{spline\_comparison\_natural}
+    \label{fig:spline_comparison_natural}
+\end{figure}
+
 \section*{D}
 Analysis:
 \begin{itemize}
@@ -230,6 +302,13 @@ Analysis:
     \item Theorem 3.58 performs better near the center
     \item Both methods show good convergence properties
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figure/spline_comparison_D.png}
+    \caption{spline\_comparison\_D}
+    \label{fig:spline_comparison_D}
+\end{figure}
 
 \section*{E}
 \subsection*{Curve \texttt{r2(t)} (2D)}
@@ -317,5 +396,18 @@ Divided differences at \( x = 1.5 \):
 \[
 \text{Order 3:} \quad 2.500000e-01
 \]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figure/divided_diff_case1.png}
+    \caption{divided\_diff\_case\(1\)}
+    \label{fig:divided_diff_case1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figure/divided_diff_case2.png}
+    \caption{divided\_diff\_case\(2\)}
+    \label{fig:divided_diff_case2}
+\end{figure}
 
 \end{document}
